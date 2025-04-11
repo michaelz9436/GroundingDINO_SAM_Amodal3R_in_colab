@@ -85,8 +85,8 @@ def image_to_3d(
 
 
 output_dir = '/content/3d_output'  # 你希望保存文件的目录
-image = cv2.imread('/content/vis_input.png')# 读取输入图像和掩码
-mask = cv2.imread('/content/occluded_mask.png', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread('/content/finalreal.png')# 读取输入图像和掩码
+mask = cv2.imread('/content/finalmask.png', cv2.IMREAD_GRAYSCALE)
 
 # 运行 3D 生成
 state = image_to_3d(
@@ -134,36 +134,3 @@ def show_point_cloud_matplotlib(state):
     plt.show()
 show_point_cloud_matplotlib(state)
 print("点云输出")
-
-def show_mesh_matplotlib(state):
-    vertices = state['mesh']['vertices']  # 提取顶点坐标
-    faces = state['mesh']['faces']  # 提取面数据
-    
-    fig = plt.figure(figsize=(8, 8))
-    ax = fig.add_subplot(111, projection='3d')
-    
-    # 绘制网格
-    for face in faces:
-        # face是一个包含3个顶点的三角形面
-        v1, v2, v3 = vertices[face[0]], vertices[face[1]], vertices[face[2]]
-        x = [v1[0], v2[0], v3[0], v1[0]]
-        y = [v1[1], v2[1], v3[1], v1[1]]
-        z = [v1[2], v2[2], v3[2], v1[2]]
-        ax.plot_trisurf(x, y, z, color='cyan', linewidth=0.1, alpha=0.5)
-
-    # 设置坐标轴
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    plt.title("Mesh Visualization")
-    plt.savefig("mesh.png")  # 保存网格图像
-    from IPython.display import display
-    from PIL import Image
-    display(Image.open("mesh.png"))  # 在 Colab 里显示
-
-    plt.show()
-
-#show_mesh_matplotlib(state)
-
-
-
