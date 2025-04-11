@@ -224,14 +224,15 @@ def add_point(x, y, visible_points):
     if [x, y] not in visible_points:
         visible_points.append([x, y])
     return visible_points
-
-
-########################################################################################
-
+    
+"""
+更改这里的visible_points和occlusion_points
+为实际的可视/遮挡点
+这里使用的是clip (13)的例子
+"""
 predictor = get_sam_predictor()
-
-visible_points =  [[760, 873], [808, 888], [818, 936], [804, 985], [794, 1014], [760, 1038], [726, 1024], [697, 990], [672, 946], [721, 941], [770, 941], [731, 873]]
-occlusion_points = [[731, 907], [706, 888], [702, 917], [677, 917], [629, 932], [677, 864], [643, 893]]
+visible_points =  [[595, 742], [648, 728], [658, 781], [653, 849], [609, 888], [585, 844], [551, 791]]
+occlusion_points =  [[706, 873], [677, 873], [653, 912], [643, 922]]
 visible_points_state = []
 occlusion_points_state = []
 occlusion_mask = None
@@ -242,7 +243,7 @@ visibility_mask_list = []
 occlusion_mask_list = []
 
 print("初始化成功，添加点")
-input_image = "/content/Amodal3R/random_frame_3.jpg"
+input_image = "/content/example/clip (13).jpg"
 original_image = cv2.imread(input_image)
 original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
 predictor = reset_image(predictor, original_image)[0]
@@ -260,25 +261,3 @@ for ind in occlusion_points:
 print("sam完成，保存模型")
 cv2.imwrite("/content/finalreal.png", cv2.cvtColor(vis_input, cv2.COLOR_RGB2BGR))
 cv2.imwrite("/content/finalmask.png", occluded_mask)
-
-
-plt.figure(figsize=(10, 5))
-
-# 原始图像
-plt.subplot(1, 2, 1)
-plt.imshow(vis_input)
-plt.title('Final Image')
-plt.axis('off')
-
-# 遮挡图像
-plt.subplot(1, 2, 2)
-plt.imshow(occluded_mask, cmap='gray')
-plt.title('Occluded Mask')
-plt.axis('off')
-# 保存到/content
-plt.tight_layout()  # 自动调整布局，避免图像重叠
-plt.savefig('/content/combined_output.png', bbox_inches='tight')
-
-# 展示
-plt.show()
-###################################################################################3
