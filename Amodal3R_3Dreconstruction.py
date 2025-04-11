@@ -63,17 +63,6 @@ def image_to_3d(
         erode_kernel_size=erode_kernel_size,
     )
 
-    # 查看 Gaussian 对象的属性和方法
-    #print(outputs)
-    gaussian_obj = outputs['gaussian'][0]  # 获取 Gaussian 对象
-    #print(gaussian_obj.__dict__)  # 输出所有属性
-    #video = render_utils.render_video(outputs['gaussian'][0], num_frames=120, bg_color=(1, 1, 1))['color']
-    #video_geo = render_utils.render_video(outputs['mesh'][0], num_frames=120)['normal']
-    #video = [np.concatenate([video[i], video_geo[i]], axis=1) for i in range(len(video))]
-
-    # 保存渲染视频
-    #video_path = os.path.join(output_dir, 'sample.mp4')
-    #imageio.mimsave(video_path, video, fps=15)
 
     # 打包返回的状态数据
     state = pack_state(outputs['gaussian'][0], outputs['mesh'][0])
@@ -84,11 +73,13 @@ def image_to_3d(
     return state
 
 
-output_dir = '/content/3d_output'  # 你希望保存文件的目录
-image = cv2.imread('/content/finalreal.png')# 读取输入图像和掩码
+output_dir = '/content/3d_output'  #保存文件目录
+image = cv2.imread('/content/finalreal.png')  # 读取输入图像和掩码
 mask = cv2.imread('/content/finalmask.png', cv2.IMREAD_GRAYSCALE)
-
-# 运行 3D 生成
+"""
+运行 3D 生成
+在此更改相关生成参数
+"""
 state = image_to_3d(
     image=image,
     mask=mask,
@@ -120,8 +111,6 @@ def show_point_cloud_matplotlib(state):
     
     # 画出点云
     ax.scatter(points[:, 0], points[:, 1], points[:, 2], s=1, c='b', marker='o', alpha=0.5)
-
-    # 设置坐标轴
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
@@ -129,8 +118,8 @@ def show_point_cloud_matplotlib(state):
     plt.savefig("point_cloud.png")  # 保存图像
     from IPython.display import display
     from PIL import Image
-    display(Image.open("point_cloud.png"))  # 在 Colab 里显示
+    display(Image.open("point_cloud.png")) 
     
     plt.show()
 show_point_cloud_matplotlib(state)
-print("点云输出")
+print("点云输出，请查看/content/point_cloud.png")
