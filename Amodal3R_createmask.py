@@ -258,8 +258,8 @@ for ind in occlusion_points:
     render_mask, occlusion_mask, occlusion_mask_list = segment_and_overlay(original_image, occlusion_points_state, predictor, occlusion_mask_list, "occlusion")
     vis_input, occluded_mask = check_combined_mask(original_image, visibility_mask, visibility_mask_list,occlusion_mask_list, 0.68)
 print("sam完成，保存模型")
-cv2.imwrite("/content/vis_input_cup.png", cv2.cvtColor(vis_input, cv2.COLOR_RGB2BGR))
-cv2.imwrite("/content/occluded_mask_cup.png", occluded_mask)
+cv2.imwrite("/content/finalreal.png", cv2.cvtColor(vis_input, cv2.COLOR_RGB2BGR))
+cv2.imwrite("/content/finalmask.png", occluded_mask)
 
 
 plt.figure(figsize=(10, 5))
